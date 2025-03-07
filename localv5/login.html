@@ -666,57 +666,42 @@ if (trywifi){
 }
 setCookie("company",security_token,1000);
 setCookie("station",station,1000);
-		
-$.ajax({
-				"url":url+"/api/public/plans/"+station+"/?security_token="+security_token,
-				"dataType":"json",
-				"method":"GET"
-			}).done(function(e){
-				$.each(e['results'],function(k,v){
-					$("#packages").append(
-                            
-            '<div class="row rowp">'+
-                        '<div class="col-xs-3 col-sm-2 col-md-2 col-lg-2">'+
-                          '<button class="btn button2 btn-circle btn-circle-lg m-2 position-relative">'+
-                            '<h5 class="text-bold" style="font-weight:600;">'+v['amount'].replace(/\.00$/, '')+'</h5>'+
-                            '</button>'+
-                            '</div>'+
-                            '<div class="col-xs-5 col-sm-6 col-md-6 col-lg-6">'+
-                              '<h6 class="text" style="color: #17a2b8;">'+v['name']+'</h6>'+
-                              '<h6 class="text device">'+v['port_limit']+' Devices</h6>'+
-                              '</div>'+
-                              '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">'+
-                                '<button  align="center"'+
-                                'class="btn btn-sm btn-outline buy_button"  type="button"'+
-                                'id="'+v['name']+'" duration="'+v['expiration']+'"'+
-                                'durationtype="'+v['expiration_type']+'"  planname="'+v['name']+'" plancode="'+v['plan_code']+'" plan_type="WIFI"'+
-                                'amount="'+v['amount']+'" value="'+v['id']+'"'+
-                                'aria-expanded="false" aria-controls="tpack0"'+
-                                '>Click & Buy</button>'+
-                                '</div>'+
-                                '</div>')
-
           
-         
-
-
-				});
-			});
-
-
+$.ajax({
+    "url": url + "/api/public/plans/" + station + "/?security_token=" + security_token,
+    "dataType": "json",
+    "method": "GET"
+}).done(function(e) {
+    $.each(e['results'], function(k, v) {
+        $("#packages").append(`
+            <div class="col-md-4 col-sm-6 mb-3">
+                <div class="card text-center p-3 shadow">
+                    <h6 class="text-muted text-uppercase">${v['name']}</h6>
+                    <h2>Ksh. ${v['amount'].replace(/\.00$/, '')}/=</h2>
+                    <ul class="list-unstyled">
+                        <li>${v['port_limit']} Device${v['port_limit'] > 1 ? 's' : ''}</li>
+                        <li>${v['expiration']} ${v['expiration_type']}</li>
+                    </ul>
+                    <button class="btn btn-primary buy_button"
+                        id="${v['name']}" 
+                        duration="${v['expiration']}"
+                        durationtype="${v['expiration_type']}"  
+                        planname="${v['name']}" 
+                        plancode="${v['plan_code']}" 
+                        plan_type="WIFI"
+                        amount="${v['amount']}" 
+                        value="${v['id']}">
+                        Buy Now
+                    </button>
+                </div>
+            </div>
+        `)
+    });
+});
 
 $("#trial-btn-trial").click(function (){
     $("#trialAlert").modal();         
 });
-
-
-
-
-        
-        
-  
-
-  
 
 
     $("#packages").on("click",".buy_button",function () {
@@ -1299,10 +1284,7 @@ SLIDER='<div id="my-pics" class="carousel slide" data-wrap="false" data-ride="ca
 
         });
     }
-
-
-
-    });
+});
 </script>
 
 
